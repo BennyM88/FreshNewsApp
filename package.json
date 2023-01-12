@@ -1,0 +1,19 @@
+{
+  "name": "fresh_news_app",
+  "version": "1.0.0",
+  "description": "app with news",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "bennym8",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/ejs": "^5.0.0",
+    "koa": "^2.14.1",
+    "koa-body-parser": "^1.1.2",
+    "koa-router": "^12.0.0",
+    "koa-static": "^5.0.0",
+    "mongoose": "^6.8.3"
+  }
+}
