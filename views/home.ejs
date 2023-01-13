@@ -4,24 +4,9 @@
     <body>
         <%- include("./partials/nav.ejs") %>
 
-            <div class="news content">
-                <h2>All News</h2>
-
-                <% if (news.length> 0) { %>
-                    <% news.forEach(n=> { %>
-                        <a class="single">
-                            <h3 class="title">
-                                <%= n.title %>
-                            </h3>
-                            <p class="content">
-                                <%= n.content %>
-                            </p>
-                        </a>
-                        <% }) %>
-                            <% } else { %>
-                                <p>There are no news to display...</p>
-                                <% } %>
-
+            <div class="home content">
+                <h2>Best News</h2>
+                <a href="/news" class="btn">Check News</a>
             </div>
 
             <%- include("./partials/footer.ejs") %>

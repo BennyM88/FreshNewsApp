@@ -5,9 +5,9 @@ const bodyParser = require('koa-body-parser');
 const ejs = require('@koa/ejs');
 const path = require('path');
 const mongoose = require('mongoose');
-const News = require('./models/news');
-const newsController = require('./controllers/newsController');
 const config = require('./config/config');
+const newsRoutes = require('./routes/newsRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 // koa app & router
 const app = new Koa();
@@ -32,6 +32,8 @@ ejs(app, {
 app
     .use(bodyParser())
     .use(router.routes())
+    .use(newsRoutes.routes())
+    .use(authRoutes.routes())
     .use(router.allowedMethods())
     .use(serve(path.join(__dirname, 'styles')))
     .use(ctx => {
@@ -39,8 +41,9 @@ app
         ctx.redirect('/not-found');
     });
 
+// basic routes
 router.get('/', async (ctx) => {
-    await ctx.redirect('/news');
+    await ctx.render('home');
 });
 
 router.get('/about', async (ctx) => {
@@ -50,10 +53,6 @@ router.get('/about', async (ctx) => {
 router.get('/create', async (ctx) => {
     await ctx.render('create');
 });
-
-router.get('/news', newsController.all_news);
-
-router.post('/news', newsController.create_news);
 
 router.get('/not-found', async (ctx) => {
     ctx.status = 404;

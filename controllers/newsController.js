@@ -1,16 +1,16 @@
 const News = require('../models/news');
 
-const all_news = async (ctx) => {
+module.exports.all_news = async (ctx) => {
     let result = await News.find().sort({ createdAt: -1 })
 
     try {
-        await ctx.render('home', { news: result });
+        await ctx.render('news', { news: result });
     } catch (e) {
         console.log(e);
     }
 }
 
-const create_news = async (ctx) => {
+module.exports.create_news = async (ctx) => {
     const news = News(ctx.request.body);
     await news.save();
 
@@ -19,9 +19,4 @@ const create_news = async (ctx) => {
     } catch (e) {
         console.log(e);
     }
-}
-
-module.exports = {
-    all_news,
-    create_news
 }
