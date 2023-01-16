@@ -1,7 +1,8 @@
 const Koa = require('koa');
 const Router = require('koa-router');
 const serve = require('koa-static');
-const bodyParser = require('koa-body-parser');
+const bodyParser = require('koa-bodyparser');
+const json = require('koa-json');
 const ejs = require('@koa/ejs');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -17,7 +18,7 @@ const router = new Router();
 mongoose.set('strictQuery', false);
 mongoose.connect(config.dbURI)
     .then(_ => app.listen(3000))
-    .catch(err => console.log(err));
+    .catch(e => console.log(e));
 
 // register view engine
 ejs(app, {
@@ -31,6 +32,7 @@ ejs(app, {
 // middleware & static files
 app
     .use(bodyParser())
+    .use(json())
     .use(router.routes())
     .use(newsRoutes.routes())
     .use(authRoutes.routes())
