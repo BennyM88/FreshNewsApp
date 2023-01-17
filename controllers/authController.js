@@ -4,7 +4,11 @@ const jwt = require('jsonwebtoken');
 
 // handle errors
 const handleErrors = (e) => {
-    let errors = { email: '', password: '' };
+    let errors = { email: '', password: '', form: '' };
+
+    if (e.message === 'invalid credentials') {
+        errors.form = 'Invalid credentials';
+    }
 
     if (e.code === 11000) {
         errors.email = 'That email already exists';
@@ -53,5 +57,18 @@ module.exports.signup_post = async (ctx) => {
 }
 
 module.exports.login_post = async (ctx) => {
-    await ctx.body('login');
+    const { email, password } = ctx.request.body;
+
+    try {
+        const user = await User.login(email, password);
+        const token = createToken(user._id);
+        ctx.cookies.set('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+        ctx.status = 200;
+        ctx.body = { id: user._id };
+    }
+    catch (e) {
+        const errors = handleErrors(e);
+        ctx.status = 400;
+        ctx.body = errors;
+    }
 }

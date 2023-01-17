@@ -6,15 +6,14 @@
         <%- include("./partials/nav.ejs") %>
 
             <div class="news-form content">
-                <form action="/signup">
+                <form action="/login">
                     <h2>Login</h2>
                     <label for="email">Email</label>
                     <input type="text" name="email" required />
-                    <div class="email error"></div>
                     <label for="password">Password</label>
                     <input type="password" name="password" required />
-                    <div class="password error"></div>
                     <button>Login</button>
+                    <div class="form error"></div>
                 </form>
             </div>
 
@@ -22,3 +21,35 @@
     </body>
 
 </html>
+
+<script>
+    const form = document.querySelector('form');
+    const formError = document.querySelector('.form.error');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        formError.textContent = '';
+
+        const email = form.email.value;
+        const password = form.password.value;
+
+        try {
+            const res = await fetch('/login', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                headers: { 'Content-Type': 'application/json' },
+            });
+            const data = await res.json();
+            if (data.form) {
+                formError.textContent = data.form;
+            }
+            if (data.id) {
+                location.assign('/');
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+</script>
