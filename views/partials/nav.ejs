@@ -6,10 +6,18 @@
         <p>Fastest news in town</p>
     </div>
     <ul>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/signup">Signup</a></li>
-        <li><a href="/news">News</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/create">Create New</a></li>
+        <% if (user) { %>
+            <li>Welcome, <%= user.email %>
+            </li>
+            <li><a href="/logout">Log out</a></li>
+            <% } else { %>
+                <li><a href="/login">Log in</a></li>
+                <li><a href="/signup">Sign up</a></li>
+                <% } %>
+                    <li><a href="/news">News</a></li>
+                    <li><a href="/about">About</a></li>
+                    <% if (user) { %>
+                        <li><a href="/create">Create New</a></li>
+                        <% } %>
     </ul>
 </nav>

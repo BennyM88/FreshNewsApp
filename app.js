@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const config = require('./config/config');
 const newsRoutes = require('./routes/newsRoutes');
 const authRoutes = require('./routes/authRoutes');
+const { ensureAuthenticated, checkUser } = require('./middleware/authMiddleware');
 
 // koa app & router
 const app = new Koa();
@@ -44,15 +45,15 @@ app
     });
 
 // basic routes
-router.get('/', async (ctx) => {
+router.get('/', checkUser, async (ctx) => {
     await ctx.render('home');
 });
 
-router.get('/about', async (ctx) => {
+router.get('/about', checkUser, async (ctx) => {
     await ctx.render('about');
 });
 
-router.get('/create', async (ctx) => {
+router.get('/create', ensureAuthenticated, checkUser, async (ctx) => {
     await ctx.render('create');
 });
 

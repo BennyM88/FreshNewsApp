@@ -72,3 +72,8 @@ module.exports.login_post = async (ctx) => {
         ctx.body = errors;
     }
 }
+
+module.exports.logout_get = (ctx) => {
+    ctx.cookies.set('jwt', { maxAge: 1 });
+    ctx.redirect('/');
+}
